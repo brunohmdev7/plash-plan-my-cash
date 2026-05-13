@@ -1,6 +1,8 @@
 package br.com.plashplanmycash.controller;
 
+import br.com.plashplanmycash.domain.dto.AtualizarUsuarioDto;
 import br.com.plashplanmycash.domain.dto.CadastroUsuarioDto;
+import br.com.plashplanmycash.domain.dto.LeituraUsuarioDto;
 import br.com.plashplanmycash.domain.dto.RetornoCadastroUsuarioDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.service.UsuarioService;
@@ -37,5 +39,25 @@ public class UsuarioController {
         );
 
         return ResponseEntity.created(location).body(bodyRetorno);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<LeituraUsuarioDto>> listar() {
+        List<LeituraUsuarioDto> bodyRetorno = usuarioService.listar().stream()
+                .map(u -> new LeituraUsuarioDto(u.getNome(), u.getEmail(), u.getCarteiras(), u.getPlanejamentos()))
+                .toList();
+        return ResponseEntity.ok(bodyRetorno);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<RetornoCadastroUsuarioDto> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarUsuarioDto usuario) {
+        Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
+        RetornoCadastroUsuarioDto bodyRetorno = new RetornoCadastroUsuarioDto(
+                usuarioAtualizado.getId(),
+                usuarioAtualizado.getNome(),
+                usuarioAtualizado.getEmail(),
+                usuarioAtualizado.getCriadoEm()
+        );
+        return ResponseEntity.ok(bodyRetorno);
     }
 }
