@@ -60,4 +60,10 @@ public class UsuarioController {
         );
         return ResponseEntity.ok(bodyRetorno);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        usuarioService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }
