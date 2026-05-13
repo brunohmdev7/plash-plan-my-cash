@@ -1,4 +1,4 @@
-package br.com.desafioapirestreservasalasalura.plashplanmycash;
+package br.com.plashplanmycash;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

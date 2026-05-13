@@ -1,5 +1,6 @@
-package br.com.desafioapirestreservasalasalura.plashplanmycash.domain.entity;
+package br.com.plashplanmycash.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@JsonPropertyOrder({"id", "nome", "email", "carteiras", "planejamentos", "criadoEm", "atualizadoEm"})
 @Entity
 @Table(name = "usuarios")
 @Getter
@@ -16,6 +18,12 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Usuario {
+
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

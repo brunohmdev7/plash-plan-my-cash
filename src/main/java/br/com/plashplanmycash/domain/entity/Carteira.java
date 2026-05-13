@@ -1,8 +1,8 @@
-package br.com.desafioapirestreservasalasalura.plashplanmycash.domain.entity;
+package br.com.plashplanmycash.domain.entity;
 
-import br.com.desafioapirestreservasalasalura.plashplanmycash.domain.enums.TipoCarteira;
-import br.com.desafioapirestreservasalasalura.plashplanmycash.domain.enums.TipoConta;
-import br.com.desafioapirestreservasalasalura.plashplanmycash.domain.enums.TipoMoeda;
+import br.com.plashplanmycash.domain.enums.TipoCarteira;
+import br.com.plashplanmycash.domain.enums.TipoConta;
+import br.com.plashplanmycash.domain.enums.TipoMoeda;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

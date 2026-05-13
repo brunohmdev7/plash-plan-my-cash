@@ -1,4 +1,4 @@
-package br.com.desafioapirestreservasalasalura.plashplanmycash.domain.enums;
+package br.com.plashplanmycash.domain.enums;
 
 public enum TipoMoeda {
     BRL,
