@@ -4,13 +4,15 @@ import br.com.plashplanmycash.domain.dto.AtualizarPlanejamentoDto;
 import br.com.plashplanmycash.domain.dto.CadastroPlanejamentoDto;
 import br.com.plashplanmycash.domain.entity.Planejamento;
 import br.com.plashplanmycash.domain.entity.Usuario;
+import br.com.plashplanmycash.exception.RegraDeNegocioException;
+import br.com.plashplanmycash.exception.RecursoNaoEncontradoException;
 import br.com.plashplanmycash.repository.PlanejamentoRepository;
 import br.com.plashplanmycash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,7 +24,7 @@ public class PlanejamentoService {
 
     public Planejamento salvar(CadastroPlanejamentoDto dto) {
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado"));
 
         validarPrazos(dto.prazoInicio(), dto.prazoFim());
         validarValores(dto.valorAtual(), dto.valorMeta());
@@ -44,7 +46,7 @@ public class PlanejamentoService {
 
     public Planejamento atualizar(Long id, AtualizarPlanejamentoDto dto) {
         Planejamento planejamento = planejamentoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Planejamento não encontrado"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Planejamento não encontrado"));
 
         if (dto.tipo() != null) planejamento.setTipo(dto.tipo());
         if (dto.nome() != null && !dto.nome().isBlank()) planejamento.setNome(dto.nome());
@@ -62,17 +64,17 @@ public class PlanejamentoService {
 
     public void deletar(Long id) {
         if (!planejamentoRepository.existsById(id))
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Planejamento não encontrado");
+            throw new RecursoNaoEncontradoException("Planejamento não encontrado");
         planejamentoRepository.deleteById(id);
     }
 
-    private void validarPrazos(java.time.LocalDate inicio, java.time.LocalDate fim) {
+    private void validarPrazos(LocalDate inicio, LocalDate fim) {
         if (!fim.isAfter(inicio))
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Prazo fim deve ser posterior ao prazo início");
+            throw new RegraDeNegocioException("Prazo fim deve ser posterior ao prazo início");
     }
 
-    private void validarValores(java.math.BigDecimal valorAtual, java.math.BigDecimal valorMeta) {
+    private void validarValores(BigDecimal valorAtual, BigDecimal valorMeta) {
         if (valorAtual.compareTo(valorMeta) > 0)
-            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Valor atual não pode ser maior que o valor da meta");
+            throw new RegraDeNegocioException("Valor atual não pode ser maior que o valor da meta");
     }
 }
