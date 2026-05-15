@@ -4,8 +4,7 @@ import br.com.plashplanmycash.domain.dto.AtualizarPlanejamentoDto;
 import br.com.plashplanmycash.domain.dto.CadastroPlanejamentoDto;
 import br.com.plashplanmycash.domain.entity.Planejamento;
 import br.com.plashplanmycash.domain.entity.Usuario;
-import br.com.plashplanmycash.exception.RegraDeNegocioException;
-import br.com.plashplanmycash.exception.RecursoNaoEncontradoException;
+import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.repository.PlanejamentoRepository;
 import br.com.plashplanmycash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,10 +23,7 @@ public class PlanejamentoService {
 
     public Planejamento salvar(CadastroPlanejamentoDto dto) {
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado"));
-
-        validarPrazos(dto.prazoInicio(), dto.prazoFim());
-        validarValores(dto.valorAtual(), dto.valorMeta());
+                .orElseThrow(() -> PlashException.naoEncontrado("Usuário não encontrado"));
 
         Planejamento planejamento = new Planejamento();
         planejamento.setUsuario(usuario);
@@ -46,7 +42,7 @@ public class PlanejamentoService {
 
     public Planejamento atualizar(Long id, AtualizarPlanejamentoDto dto) {
         Planejamento planejamento = planejamentoRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Planejamento não encontrado"));
+                .orElseThrow(() -> PlashException.naoEncontrado("Planejamento não encontrado"));
 
         if (dto.tipo() != null) planejamento.setTipo(dto.tipo());
         if (dto.nome() != null && !dto.nome().isBlank()) planejamento.setNome(dto.nome());
@@ -64,17 +60,17 @@ public class PlanejamentoService {
 
     public void deletar(Long id) {
         if (!planejamentoRepository.existsById(id))
-            throw new RecursoNaoEncontradoException("Planejamento não encontrado");
+            throw PlashException.naoEncontrado("Planejamento não encontrado");
         planejamentoRepository.deleteById(id);
     }
 
     private void validarPrazos(LocalDate inicio, LocalDate fim) {
         if (!fim.isAfter(inicio))
-            throw new RegraDeNegocioException("Prazo fim deve ser posterior ao prazo início");
+            throw PlashException.prazoInvalido("Prazo fim deve ser posterior ao prazo início");
     }
 
     private void validarValores(BigDecimal valorAtual, BigDecimal valorMeta) {
         if (valorAtual.compareTo(valorMeta) > 0)
-            throw new RegraDeNegocioException("Valor atual não pode ser maior que o valor da meta");
+            throw PlashException.valorInvalido("Valor atual não pode ser maior que o valor da meta");
     }
 }

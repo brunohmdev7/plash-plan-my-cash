@@ -2,6 +2,7 @@ package br.com.plashplanmycash.domain.dto;
 
 import br.com.plashplanmycash.domain.enums.TipoMoeda;
 import br.com.plashplanmycash.domain.enums.TipoPlanejamento;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -19,4 +20,14 @@ public record CadastroPlanejamentoDto(
         @NotNull LocalDate prazoInicio,
         @NotNull @Future(message = "Prazo fim deve ser uma data futura") LocalDate prazoFim,
         @NotNull TipoMoeda moeda
-) {}
+) {
+    @AssertTrue(message = "Prazo fim deve ser posterior ao prazo início")
+    public boolean isPrazoValido() {
+        return prazoInicio == null || prazoFim == null || prazoFim.isAfter(prazoInicio);
+    }
+
+    @AssertTrue(message = "Valor atual não pode ser maior que o valor da meta")
+    public boolean isValorAtualValido() {
+        return valorAtual == null || valorMeta == null || valorAtual.compareTo(valorMeta) <= 0;
+    }
+}

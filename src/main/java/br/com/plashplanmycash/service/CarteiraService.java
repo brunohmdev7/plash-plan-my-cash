@@ -4,8 +4,7 @@ import br.com.plashplanmycash.domain.dto.AtualizarCarteiraDto;
 import br.com.plashplanmycash.domain.dto.CadastroCarteiraDto;
 import br.com.plashplanmycash.domain.entity.Carteira;
 import br.com.plashplanmycash.domain.entity.Usuario;
-import br.com.plashplanmycash.exception.ConflitoException;
-import br.com.plashplanmycash.exception.RecursoNaoEncontradoException;
+import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.repository.CarteiraRepository;
 import br.com.plashplanmycash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,10 @@ public class CarteiraService {
 
     public Carteira salvar(CadastroCarteiraDto dto) {
         Usuario usuario = usuarioRepository.findById(dto.usuarioId())
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado"));
+                .orElseThrow(() -> PlashException.naoEncontrado("Usuário não encontrado"));
 
         if (carteiraRepository.existsByUsuarioIdAndApelido(dto.usuarioId(), dto.apelido()))
-            throw new ConflitoException("Já existe uma carteira com esse apelido");
+            throw PlashException.conflito("Já existe uma carteira com esse apelido");
 
         Carteira carteira = new Carteira();
         carteira.setUsuario(usuario);
@@ -42,11 +41,11 @@ public class CarteiraService {
 
     public Carteira atualizar(Long id, AtualizarCarteiraDto dto) {
         Carteira carteira = carteiraRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Carteira não encontrada"));
+                .orElseThrow(() -> PlashException.naoEncontrado("Carteira não encontrada"));
 
         if (dto.apelido() != null && !dto.apelido().isBlank()) {
             if (carteiraRepository.existsByUsuarioIdAndApelidoAndIdNot(carteira.getUsuario().getId(), dto.apelido(), id))
-                throw new ConflitoException("Já existe uma carteira com esse apelido");
+                throw PlashException.conflito("Já existe uma carteira com esse apelido");
             carteira.setApelido(dto.apelido());
         }
         if (dto.tipoCarteira() != null) carteira.setTipoCarteira(dto.tipoCarteira());
@@ -59,7 +58,7 @@ public class CarteiraService {
 
     public void deletar(Long id) {
         if (!carteiraRepository.existsById(id))
-            throw new RecursoNaoEncontradoException("Carteira não encontrada");
+            throw PlashException.naoEncontrado("Carteira não encontrada");
         carteiraRepository.deleteById(id);
     }
 }

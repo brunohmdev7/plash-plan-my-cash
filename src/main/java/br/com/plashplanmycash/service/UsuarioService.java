@@ -2,7 +2,7 @@ package br.com.plashplanmycash.service;
 
 import br.com.plashplanmycash.domain.dto.AtualizarUsuarioDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
-import br.com.plashplanmycash.exception.RecursoNaoEncontradoException;
+import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class UsuarioService {
 
     public Usuario atualizar(Long id, AtualizarUsuarioDto dto) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado"));
+                .orElseThrow(() -> PlashException.naoEncontrado("Usuário não encontrado"));
 
         if (dto.nome() != null && !dto.nome().isBlank()) usuario.setNome(dto.nome());
         if (dto.email() != null && !dto.email().isBlank()) usuario.setEmail(dto.email());
@@ -32,7 +32,7 @@ public class UsuarioService {
 
     public void deletar(Long id) {
         if (!usuarioRepository.existsById(id))
-            throw new RecursoNaoEncontradoException("Usuário não encontrado");
+            throw PlashException.naoEncontrado("Usuário não encontrado");
         usuarioRepository.deleteById(id);
     }
 }
