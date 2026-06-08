@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.domain.dto;
+package br.com.plashplanmycash.domain.dto.usuario;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

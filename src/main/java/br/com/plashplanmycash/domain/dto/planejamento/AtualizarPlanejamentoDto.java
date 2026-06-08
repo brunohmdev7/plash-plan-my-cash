@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.domain.dto;
+package br.com.plashplanmycash.domain.dto.planejamento;
 
 import br.com.plashplanmycash.domain.enums.TipoMoeda;
 import br.com.plashplanmycash.domain.enums.TipoPlanejamento;

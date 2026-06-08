@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.domain.dto;
+package br.com.plashplanmycash.domain.dto.carteira;
 
 import br.com.plashplanmycash.domain.enums.TipoCarteira;
 import br.com.plashplanmycash.domain.enums.TipoConta;

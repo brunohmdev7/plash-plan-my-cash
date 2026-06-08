@@ -1,9 +1,9 @@
 package br.com.plashplanmycash.controller;
 
-import br.com.plashplanmycash.domain.dto.AtualizarUsuarioDto;
-import br.com.plashplanmycash.domain.dto.CadastroUsuarioDto;
-import br.com.plashplanmycash.domain.dto.LeituraUsuarioDto;
-import br.com.plashplanmycash.domain.dto.RetornoCadastroUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.AtualizarUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.CadastroUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.LeituraUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.RetornoCadastroUsuarioDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.service.UsuarioService;
 import jakarta.validation.Valid;

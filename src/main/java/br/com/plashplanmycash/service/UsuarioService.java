@@ -1,6 +1,6 @@
 package br.com.plashplanmycash.service;
 
-import br.com.plashplanmycash.domain.dto.AtualizarUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.AtualizarUsuarioDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.repository.UsuarioRepository;

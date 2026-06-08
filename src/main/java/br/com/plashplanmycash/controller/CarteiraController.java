@@ -1,8 +1,8 @@
 package br.com.plashplanmycash.controller;
 
-import br.com.plashplanmycash.domain.dto.AtualizarCarteiraDto;
-import br.com.plashplanmycash.domain.dto.CadastroCarteiraDto;
-import br.com.plashplanmycash.domain.dto.LeituraCarteiraDto;
+import br.com.plashplanmycash.domain.dto.carteira.AtualizarCarteiraDto;
+import br.com.plashplanmycash.domain.dto.carteira.CadastroCarteiraDto;
+import br.com.plashplanmycash.domain.dto.carteira.LeituraCarteiraDto;
 import br.com.plashplanmycash.domain.entity.Carteira;
 import br.com.plashplanmycash.service.CarteiraService;
 import jakarta.validation.Valid;

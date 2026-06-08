@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.domain.dto;
+package br.com.plashplanmycash.domain.dto.usuario;
 
 import br.com.plashplanmycash.domain.entity.Carteira;
 import br.com.plashplanmycash.domain.entity.Planejamento;

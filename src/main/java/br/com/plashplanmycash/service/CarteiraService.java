@@ -1,7 +1,7 @@
 package br.com.plashplanmycash.service;
 
-import br.com.plashplanmycash.domain.dto.AtualizarCarteiraDto;
-import br.com.plashplanmycash.domain.dto.CadastroCarteiraDto;
+import br.com.plashplanmycash.domain.dto.carteira.AtualizarCarteiraDto;
+import br.com.plashplanmycash.domain.dto.carteira.CadastroCarteiraDto;
 import br.com.plashplanmycash.domain.entity.Carteira;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.exception.PlashException;

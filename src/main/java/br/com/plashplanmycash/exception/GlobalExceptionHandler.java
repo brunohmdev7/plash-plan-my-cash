@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.controller;
+package br.com.plashplanmycash.exception;
 
 import br.com.plashplanmycash.exception.ErroResponse;
 import br.com.plashplanmycash.exception.PlashException;
