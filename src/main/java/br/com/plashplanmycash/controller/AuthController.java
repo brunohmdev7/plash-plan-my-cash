@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
@@ -27,14 +30,19 @@ public class AuthController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastrar(@RequestBody @Valid CadastroUsuarioDto dadosUsuario) {
-            Usuario usuario =  new Usuario(dadosUsuario.nome(), dadosUsuario.email(), dadosUsuario.senha());
-            usuarioService.salvar(usuario);
+    public ResponseEntity<RetornoCadastroUsuarioDto> cadastrar(@RequestBody @Valid CadastroUsuarioDto dadosUsuario) {
+        Usuario usuario = usuarioService.salvar(new Usuario(dadosUsuario.nome(), dadosUsuario.email(), dadosUsuario.senha()));
 
-            RetornoCadastroUsuarioDto usuarioCadastrado = new RetornoCadastroUsuarioDto(
-                    usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCriadoEm()
-            );
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/usuarios/{id}")
+                .buildAndExpand(usuario.getId())
+                .toUri();
 
-            return ResponseEntity.ok(usuarioCadastrado);
+        RetornoCadastroUsuarioDto usuarioCadastrado = new RetornoCadastroUsuarioDto(
+                usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCriadoEm()
+        );
+
+        return ResponseEntity.created(location).body(usuarioCadastrado);
     }
 }

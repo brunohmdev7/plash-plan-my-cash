@@ -41,6 +41,13 @@ public class UsuarioController {
         return ResponseEntity.created(location).body(bodyRetorno);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<LeituraUsuarioDto> buscarPorId(@PathVariable Long id) {
+        Usuario usuario = usuarioService.buscarPorId(id);
+        LeituraUsuarioDto bodyRetorno = new LeituraUsuarioDto(usuario.getNome(), usuario.getEmail(), usuario.getCarteiras(), usuario.getPlanejamentos());
+        return ResponseEntity.ok(bodyRetorno);
+    }
+
     @GetMapping
     public ResponseEntity<List<LeituraUsuarioDto>> listar() {
         List<LeituraUsuarioDto> bodyRetorno = usuarioService.listar().stream()

@@ -5,6 +5,7 @@ import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,11 @@ public class UsuarioService {
     public Usuario salvar(Usuario usuario) { return usuarioRepository.save(usuario); }
 
     public List<Usuario> listar() { return usuarioRepository.findAll(); }
+
+    public Usuario buscarPorId(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> PlashException.naoEncontrado("Usuário não encontrado"));
+    }
 
     public Usuario atualizar(Long id, AtualizarUsuarioDto dto) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -34,5 +40,9 @@ public class UsuarioService {
         if (!usuarioRepository.existsById(id))
             throw PlashException.naoEncontrado("Usuário não encontrado");
         usuarioRepository.deleteById(id);
+    }
+
+    public UserDetails buscaPorUsername(String username) {
+        return usuarioRepository.loadByUsername(username);
     }
 }
