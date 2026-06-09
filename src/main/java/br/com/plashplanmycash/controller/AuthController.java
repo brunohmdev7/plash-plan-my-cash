@@ -9,6 +9,7 @@ import br.com.plashplanmycash.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import java.net.URI;
 public class AuthController {
 
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity login(LoginUsuarioDto usuario) {
@@ -30,8 +32,9 @@ public class AuthController {
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<RetornoCadastroUsuarioDto> cadastrar(@RequestBody @Valid CadastroUsuarioDto dadosUsuario) {
-        Usuario usuario = usuarioService.salvar(new Usuario(dadosUsuario.nome(), dadosUsuario.email(), dadosUsuario.senha()));
+    public ResponseEntity<RetornoCadastroUsuarioDto> cadastrar(@RequestBody @Valid CadastroUsuarioDto request) {
+        String senhaComHashing = passwordEncoder.encode(request.senha());
+        Usuario usuario = usuarioService.salvar(new Usuario(request.nome(), request.email(), senhaComHashing));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath()
