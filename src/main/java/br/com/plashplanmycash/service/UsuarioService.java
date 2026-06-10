@@ -42,7 +42,7 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
-    public UserDetails buscaPorUsername(String username) {
-        return usuarioRepository.loadByUsername(username);
+    public UserDetails buscaPorEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 }
