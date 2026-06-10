@@ -1,18 +1,27 @@
 package br.com.plashplanmycash.controller;
 
+import br.com.plashplanmycash.config.TokenConfig;
 import br.com.plashplanmycash.domain.dto.usuario.CadastroUsuarioDto;
 import br.com.plashplanmycash.domain.dto.usuario.LoginUsuarioDto;
 import br.com.plashplanmycash.domain.dto.usuario.RetornoCadastroUsuarioDto;
+import br.com.plashplanmycash.domain.dto.usuario.RetornoLoginDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,21 +29,36 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UsuarioService usuarioService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenConfig tokenConfig;
 
     @PostMapping("/login")
-    public ResponseEntity login(LoginUsuarioDto usuario) {
-        return null;
+    public ResponseEntity<RetornoLoginDto> login(LoginUsuarioDto request) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.email(), request.senha());
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        String token = tokenConfig.gerarToken(usuario);
+
+        return ResponseEntity.ok(new RetornoLoginDto(token));
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity cadastrar(@RequestBody @Valid CadastroUsuarioDto dadosUsuario) {
-            Usuario usuario =  new Usuario(dadosUsuario.nome(), dadosUsuario.email(), dadosUsuario.senha());
-            usuarioService.salvar(usuario);
+    public ResponseEntity<RetornoCadastroUsuarioDto> cadastrar(@RequestBody @Valid CadastroUsuarioDto request) {
+        String senhaComHashing = passwordEncoder.encode(request.senha());
+        Usuario usuario = usuarioService.salvar(new Usuario(request.nome(), request.email(), senhaComHashing));
 
-            RetornoCadastroUsuarioDto usuarioCadastrado = new RetornoCadastroUsuarioDto(
-                    usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCriadoEm()
-            );
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath()
+                .path("/usuarios/{id}")
+                .buildAndExpand(usuario.getId())
+                .toUri();
 
-            return ResponseEntity.ok(usuarioCadastrado);
+        RetornoCadastroUsuarioDto usuarioCadastrado = new RetornoCadastroUsuarioDto(
+                usuario.getId(), usuario.getNome(), usuario.getEmail(), usuario.getCriadoEm()
+        );
+
+        return ResponseEntity.created(location).body(usuarioCadastrado);
     }
 }
