@@ -42,7 +42,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LeituraUsuarioDto> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<LeituraUsuarioDto> listarUnicoUsuario(@PathVariable Long id) {
         Usuario usuario = usuarioService.buscarPorId(id);
         LeituraUsuarioDto bodyRetorno = new LeituraUsuarioDto(usuario.getNome(), usuario.getEmail(), usuario.getCarteiras(), usuario.getPlanejamentos());
         return ResponseEntity.ok(bodyRetorno);
