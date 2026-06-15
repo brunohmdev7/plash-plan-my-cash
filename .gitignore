@@ -1,6 +1,7 @@
 CLAUDE.md
 target/
 src/main/resources/application.properties
+src/main/resources/application-test.properties
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
