@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.config;
+package br.com.plashplanmycash.config.security;
 
 import br.com.plashplanmycash.service.UsuarioService;
 import org.springframework.security.core.userdetails.UserDetails;

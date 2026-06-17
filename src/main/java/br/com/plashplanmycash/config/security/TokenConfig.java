@@ -1,5 +1,6 @@
-package br.com.plashplanmycash.config;
+package br.com.plashplanmycash.config.security;
 
+import br.com.plashplanmycash.config.dto.DadosUsuarioJWT;
 import br.com.plashplanmycash.domain.entity.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

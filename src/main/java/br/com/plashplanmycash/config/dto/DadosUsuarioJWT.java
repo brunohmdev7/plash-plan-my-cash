@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.config;
+package br.com.plashplanmycash.config.dto;
 
 import lombok.Builder;
 

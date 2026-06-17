@@ -8,12 +8,14 @@ import br.com.plashplanmycash.service.CarteiraService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
 
+@Tag(name = "Carteiras")
 @RestController
 @RequestMapping("/carteiras")
 @RequiredArgsConstructor

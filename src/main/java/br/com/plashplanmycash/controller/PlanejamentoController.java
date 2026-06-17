@@ -8,6 +8,7 @@ import br.com.plashplanmycash.service.PlanejamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Tag(name = "Planejamentos")
 @RestController
 @RequestMapping("/planejamentos")
 @RequiredArgsConstructor
