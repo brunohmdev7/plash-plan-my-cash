@@ -1,5 +1,6 @@
-package br.com.plashplanmycash.config;
+package br.com.plashplanmycash.config.security;
 
+import br.com.plashplanmycash.config.dto.DadosUsuarioJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

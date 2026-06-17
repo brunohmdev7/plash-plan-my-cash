@@ -1,12 +1,11 @@
 package br.com.plashplanmycash.controller;
 
-import br.com.plashplanmycash.config.TokenConfig;
+import br.com.plashplanmycash.config.security.TokenConfig;
 import br.com.plashplanmycash.domain.dto.usuario.CadastroUsuarioDto;
 import br.com.plashplanmycash.domain.dto.usuario.LoginUsuarioDto;
 import br.com.plashplanmycash.domain.dto.usuario.RetornoCadastroUsuarioDto;
 import br.com.plashplanmycash.domain.dto.usuario.RetornoLoginDto;
 import br.com.plashplanmycash.domain.entity.Usuario;
-import br.com.plashplanmycash.exception.PlashException;
 import br.com.plashplanmycash.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+@Tag(name = "Autenticação")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor

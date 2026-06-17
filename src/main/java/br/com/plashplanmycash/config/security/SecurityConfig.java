@@ -1,4 +1,4 @@
-package br.com.plashplanmycash.config;
+package br.com.plashplanmycash.config.security;
 
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
