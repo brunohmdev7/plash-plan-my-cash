@@ -29,16 +29,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             String token = authorizedHeader.substring(7);
             Optional<DadosUsuarioJWT> optionalUsuario = tokenConfig.validarToken(token);
 
-            if (optionalUsuario.isPresent()) {
-               DadosUsuarioJWT dadosUsuarioJWT = optionalUsuario.get();
+            optionalUsuario.ifPresent(dadosUsuarioJWT -> {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(dadosUsuarioJWT, null, null);
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                filterChain.doFilter(request, response);
-            }
-        } else {
-            filterChain.doFilter(request, response);
+            });
         }
+
+        filterChain.doFilter(request, response);
     }
 }
